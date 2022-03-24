@@ -3,6 +3,8 @@ import argparse
 import cv2
 
 from facial_landmarks import detect_facial_landmarks
+from morphing import cross_dissolve
+from facial_landmarks import draw_facial_landmarks
 
 
 def parse_arguments():
@@ -25,7 +27,7 @@ if __name__ == '__main__':
 
     img_size = (source_img.shape[0], source_img.shape[1])
 
-    [size, points_source, points_target, average_points_list] = detect_facial_landmarks(source_img, target_img)
+    # [size, points_source, points_target, average_points_list] = detect_facial_landmarks(source_img, target_img)
 
     # draw facial points
     # draw_facial_landmarks(source_img, points_source, "source_points.JPEG")

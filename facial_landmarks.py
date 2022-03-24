@@ -31,7 +31,7 @@ def detect_facial_landmarks(source_img, target_img):
         # second argument indicates that we should upsample the image 1 time. This
         # will make everything bigger and allow us to detect more faces.
 
-        rectangles = detector(image, 1)
+        rectangles = detector(image)
 
         # loop over the face detections
         for (k, rect) in enumerate(rectangles):
@@ -48,7 +48,7 @@ def detect_facial_landmarks(source_img, target_img):
                 points_sum_array[i][1] += y
 
             # corners + centers to each image's list
-            add_corners_centers(curr_image_list, width, length)
+            add_corners_and_centers(curr_image_list, width, length)
 
             # set current image to target
             curr_image_list = points_list_target
@@ -70,15 +70,18 @@ def detect_facial_landmarks(source_img, target_img):
     return [(width, length), points_list_source, points_list_target, average_points_list]
 
 
-def add_corners_centers(image_array, width, length):
-    image_array.append((1, 1))
-    image_array.append((length - 1, 1))
-    image_array.append(((length - 1) // 2, 1))
-    image_array.append((1, width - 1))
-    image_array.append((1, (width - 1) // 2))
-    image_array.append(((length - 1) // 2, width - 1))
-    image_array.append((length - 1, width - 1))
-    image_array.append(((length - 1), (width - 1) // 2))
+def add_corners_and_centers(image_points, width, length):
+    # corners
+    image_points.append((1, 1))
+    image_points.append((length - 1, 1))
+    image_points.append((1, width - 1))
+    image_points.append((length - 1, width - 1))
+
+    # centers
+    image_points.append(((length - 1) // 2, 1))
+    image_points.append((1, (width - 1) // 2))
+    image_points.append(((length - 1) // 2, width - 1))
+    image_points.append(((length - 1), (width - 1) // 2))
 
 
 def draw_facial_landmarks(image, points, output):
